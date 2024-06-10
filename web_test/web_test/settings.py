@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -120,8 +121,18 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
+STATIC_ROOT = os.path.join(BASE_DIR, STATIC_URL)
+
+LOCAL_IMG_PATH = r"\\192.168.10.229\图片\产品45主图随时更新\45主图"
+# 静态文件所在目录
+STATICFILES_DIRS = [ 
+    os.path.join(LOCAL_IMG_PATH, "千百度45度图"),
+    os.path.join(LOCAL_IMG_PATH, "笑脸45度图"),
+    os.path.join(LOCAL_IMG_PATH, "烟斗45图准确版"),
+    os.path.join(LOCAL_IMG_PATH, "伊伴男女鞋45度图准确版"),
+]
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
