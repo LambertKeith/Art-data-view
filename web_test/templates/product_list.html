@@ -1,48 +1,74 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product List</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{% static 'css/bootstrap.min.css' %} " rel="stylesheet">
 </head>
 <body>
-    <h1>Product List</h1>
-    <form method="GET">
-        <input type="text" name="name" placeholder="Name" value="{{ filters.name }}">
-        <input type="text" name="category" placeholder="Category" value="{{ filters.category }}">
-        <input type="number" name="price" placeholder="Price" value="{{ filters.price }}">
-        <input type="number" name="stock" placeholder="Stock" value="{{ filters.stock }}">
-        <button type="submit">Filter</button>
-    </form>
-    <table>
-        <thead>
-            <tr>
-                <th>Image</th>
-                <th>Name</th>
-                <th>Category</th>
-                <th>Price</th>
-                <th>Stock</th>
-                
-            </tr>
-        </thead>
-        <tbody>
-            {% for product in products %}
-            <tr>
-                <td>
-                    {% if product.img_path %}
-                    <img src="{{ product.img_path }}" alt="{{ product.name }}" width="100">
-                    {% else %}
-                    No Image
-                    {% endif %}
-                </td>
-                <td>{{ product.name }}</td>
-                <td>{{ product.category }}</td>
-                <td>{{ product.price }}</td>
-                <td>{{ product.stock }}</td>
+    <div class="container">
+        <h1 class="my-4">美工组</h1>
+        <form method="GET" class="form-inline mb-4">
+            <input type="text" name="name" class="form-control mr-2" placeholder="Name" value="{{ filters.name }}">
+            <input type="text" name="category" class="form-control mr-2" placeholder="Category" value="{{ filters.category }}">
+            <input type="number" name="price" class="form-control mr-2" placeholder="Price" value="{{ filters.price }}">
+            <input type="number" name="stock" class="form-control mr-2" placeholder="Stock" value="{{ filters.stock }}">
+            <button type="submit" class="btn btn-primary mr-2">执行筛选</button>
+            <button type="button" class="btn btn-secondary" id="clearFilters">清除所有筛选</button>
+        </form>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                    <th>Stock</th>
+                    <th>Image</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in products %}
+                <tr>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.category }}</td>
+                    <td>{{ product.price }}</td>
+                    <td>{{ product.stock }}</td>
+                    <td>
+                        {% if product.img_path %}
+                        <img src="{% static product.img_path %}" alt="{{ product.name }}" width="100" class="img-thumbnail product-image" data-toggle="modal" data-target="#imageModal">
+                        {% else %}
+                        No Image
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <!-- The Modal -->
+    <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="imageModalLabel">Image Preview</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <img id="modalImage" src="" class="img-fluid" alt="Product Image">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- jQuery and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'js/myjs.js' %}"></script>
 </body>
 </html>
