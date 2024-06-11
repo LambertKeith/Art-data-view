@@ -1,73 +1,151 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product List</title>
-    <!-- Bootstrap CSS -->
-    <link href="{% static 'css/bootstrap.min.css' %} " rel="stylesheet">
-</head>
-<body>
-    <div class="container">
-        <h1 class="my-4">美工组</h1>
-        <form method="GET" class="form-inline mb-4">
-            <input type="text" name="name" class="form-control mr-2" placeholder="Name" value="{{ filters.name }}">
-            <input type="text" name="category" class="form-control mr-2" placeholder="Category" value="{{ filters.category }}">
-            <input type="number" name="price" class="form-control mr-2" placeholder="Price" value="{{ filters.price }}">
-            <input type="number" name="stock" class="form-control mr-2" placeholder="Stock" value="{{ filters.stock }}">
-            <button type="submit" class="btn btn-primary mr-2">执行筛选</button>
-            <button type="button" class="btn btn-secondary" id="clearFilters">清除所有筛选</button>
-        </form>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Category</th>
-                    <th>Price</th>
-                    <th>Stock</th>
-                    <th>Image</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for product in products %}
-                <tr>
-                    <td>{{ product.name }}</td>
-                    <td>{{ product.category }}</td>
-                    <td>{{ product.price }}</td>
-                    <td>{{ product.stock }}</td>
-                    <td>
-                        {% if product.img_path %}
-                        <img src="{% static product.img_path %}" alt="{{ product.name }}" width="100" class="img-thumbnail product-image" data-toggle="modal" data-target="#imageModal">
-                        {% else %}
-                        No Image
-                        {% endif %}
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
 
+
+
+    {% load static %}
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Product List</title>
+      <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+      <style>
+        body {
+          overflow-x: hidden;
+        }
+      </style>
+    </head>
+    <body>
+    <div class="container-fluid">
+      <h1 class="my-4">美工组-商品资料站</h1>
+      <form id="filterForm" method="GET" class="form-inline mb-1">
+        <input type="text" name="product_code" class="form-control mr-2 mb-2" placeholder="货号" value="{{ filters.product_code }}">
+        <input type="text" name="original_product_code" class="form-control mr-2 mb-2" placeholder="原始货号" value="{{ filters.original_product_code }}">
+        <input type="text" name="style_code" class="form-control mr-2 mb-2" placeholder="款号" value="{{ filters.style_code }}">
+        <input type="text" name="factory_code" class="form-control mr-2 mb-2" placeholder="工厂代码" value="{{ filters.factory_code }}">
+        <input type="text" name="factory_product_code" class="form-control mr-2 mb-2" placeholder="工厂货号" value="{{ filters.factory_product_code }}">
+        <input type="text" name="insole_material" class="form-control mr-2 mb-2" placeholder="鞋垫材质" value="{{ filters.insole_material }}">
+        <input type="text" name="outsole_material" class="form-control mr-2 mb-2" placeholder="大底材质" value="{{ filters.outsole_material }}">
+        <input type="text" name="lining_material" class="form-control mr-2 mb-2" placeholder="内里材质" value="{{ filters.lining_material }}">
+        <input type="text" name="upper_material" class="form-control mr-2 mb-2" placeholder="鞋面材质" value="{{ filters.upper_material }}">
+        <input type="text" name="group" class="form-control mr-2 mb-2" placeholder="组别" value="{{ filters.group }}">
+        <input type="text" name="platform" class="form-control mr-2 mb-2" placeholder="所属平台" value="{{ filters.platform }}">
+        <input type="number" name="cost" class="form-control mr-2 mb-2" placeholder="成本" value="{{ filters.cost }}">
+        <input type="text" name="product_name" class="form-control mr-2 mb-2" placeholder="品名" value="{{ filters.product_name }}">
+        <input type="text" name="season_classification" class="form-control mr-2 mb-2" placeholder="季节分类" value="{{ filters.season_classification }}">
+        <input type="text" name="season" class="form-control mr-2 mb-2" placeholder="季节" value="{{ filters.season }}">
+        <input type="text" name="category" class="form-control mr-2 mb-2" placeholder="三级分类" value="{{ filters.category }}">
+        <input type="text" name="first_order_date" class="form-control mr-2 mb-2" placeholder="首单日期" value="{{ filters.first_order_date }}">
+        <input type="text" name="vip_first_sale_date" class="form-control mr-2 mb-2" placeholder="唯品首次售卖时间" value="{{ filters.vip_first_sale_date }}">
+        <input type="text" name="dew_first_sale_date" class="form-control mr-2 mb-2" placeholder="得物首次售卖时间" value="{{ filters.dew_first_sale_date }}">
+        <input type="text" name="latest_status" class="form-control mr-2 mb-2" placeholder="最新上下线状态" value="{{ filters.latest_status }}">
+        <input type="text" name="original_status" class="form-control mr-2 mb-2" placeholder="原始货号上线状态" value="{{ filters.original_status }}">
+        <button type="submit" class="btn btn-primary mr-2 mb-2">执行筛选</button>
+        <button type="button" class="btn btn-secondary mb-2" id="clearFilters">清除所有筛选</button>
+      </form>
+      <div class="table-responsive">
+        <table class="table table-striped table-sm table-bordered">
+          <thead>
+            <tr>
+              <th>图片</th>
+              <th>货号</th>
+              <th>原始货号</th>
+              <th>款号</th>
+              <th>工厂代码</th>
+              <th>工厂货号</th>
+              <th>鞋垫材质</th>
+              <th>大底材质</th>
+              <th>内里材质</th>
+              <th>鞋面材质</th>
+              <th>组别</th>
+              <th>所属平台</th>
+              <th>成本</th>
+              <th>品名</th>
+              <th>季节分类</th>
+              <th>季节</th>
+              <th>三级分类</th>
+              <th>首单日期</th>
+              <th>唯品首次售卖时间</th>
+              <th>得物首次售卖时间</th>
+              <th>最新上下线状态</th>
+              <th>原始货号上线状态</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for product in page_obj %}
+            <tr>
+              <td>
+                {% if product.img_path %}
+                <img src="{% static product.img_path %}" alt="{{ product.product_code }}" width="100" class="img-thumbnail product-image" data-toggle="modal" data-target="#imageModal">
+                {% else %}
+                No Image
+                {% endif %}
+              </td>
+              <td>{{ product.product_code }}</td>
+              <td>{{ product.original_product_code }}</td>
+              <td>{{ product.style_code }}</td>
+              <td>{{ product.factory_code }}</td>
+              <td>{{ product.factory_product_code }}</td>
+              <td>{{ product.insole_material }}</td>
+              <td>{{ product.outsole_material }}</td>
+              <td>{{ product.lining_material }}</td>
+              <td>{{ product.upper_material }}</td>
+              <td>{{ product.group }}</td>
+              <td>{{ product.platform }}</td>
+              <td>{{ product.cost }}</td>
+              <td>{{ product.product_name }}</td>
+              <td>{{ product.season_classification }}</td>
+              <td>{{ product.season }}</td>
+              <td>{{ product.category }}</td>
+              <td>{{ product.first_order_date }}</td>
+              <td>{{ product.vip_first_sale_date }}</td>
+              <td>{{ product.dew_first_sale_date }}</td>
+              <td>{{ product.latest_status }}</td>
+              <td>{{ product.original_status }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="pagination">
+        <span class="step-links">
+          {% if page_obj.has_previous %}
+            <a href="?page=1{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">&laquo; 第一页</a>
+            <a href="?page={{ page_obj.previous_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">前一页</a>
+          {% endif %}
+      
+          <span class="current">
+            第 {{ page_obj.number }} 页 / 一共 {{ page_obj.paginator.num_pages }}页 
+          </span>
+      
+          {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">下一页</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">最后一页 &raquo;</a>
+          {% endif %}
+        </span>
+      </div>
+      
+    </div>
+    
     <!-- The Modal -->
     <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="imageModalLabel">Image Preview</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <img id="modalImage" src="" class="img-fluid" alt="Product Image">
-                </div>
-            </div>
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="imageModalLabel">图片预览</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          </div>
+          <div class="modal-body">
+            <img id="modalImage" src="" class="img-fluid" alt="Product Image">
+          </div>
         </div>
+      </div>
     </div>
+    
     <!-- jQuery and Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
     <script src="{% static 'js/myjs.js' %}"></script>
-</body>
-</html>
+    </body>
+    </html>
+    

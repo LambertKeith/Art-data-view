@@ -128,9 +128,21 @@ STATIC_ROOT = os.path.join(BASE_DIR, STATIC_URL)
 LOCAL_IMG_PATH = r"\\192.168.10.229\图片\产品45主图随时更新\45主图"
 # 静态文件所在目录
 STATICFILES_DIRS = [ 
+    ('img', os.path.join(LOCAL_IMG_PATH, "45主图以此为准")),
+    ('img', os.path.join(LOCAL_IMG_PATH, "得物插图准确版")),
+    ('img', os.path.join(LOCAL_IMG_PATH, "扣子图片")),
+    ('img', os.path.join(LOCAL_IMG_PATH, "女鞋45主图")),
     ('img', os.path.join(LOCAL_IMG_PATH, "千百度45度图")),
+    ('img', os.path.join(LOCAL_IMG_PATH, "千百度45度图男女鞋")),
+    ('img', os.path.join(LOCAL_IMG_PATH, "千百度包包图片")),
+    ('img', os.path.join(LOCAL_IMG_PATH, "千百度男女鞋45图准确版")),
+    ('img', os.path.join(LOCAL_IMG_PATH, "千百度女鞋45度图")),
+    ('img', os.path.join(LOCAL_IMG_PATH, "千百度童鞋45度图")),
     ('img', os.path.join(LOCAL_IMG_PATH, "笑脸45度图")),
+    ('img', os.path.join(LOCAL_IMG_PATH, "笑脸45图准确版")),
     ('img', os.path.join(LOCAL_IMG_PATH, "烟斗45图准确版")),
+    ('img', os.path.join(LOCAL_IMG_PATH, "烟斗精细表")),
+    ('img', os.path.join(LOCAL_IMG_PATH, "伊伴男女鞋45度图")),
     ('img', os.path.join(LOCAL_IMG_PATH, "伊伴男女鞋45度图准确版")),
     ('css', os.path.join(r"D:\workspace\Current project\Art data view\静态文件", "css")),
     ('js', os.path.join(r"D:\workspace\Current project\Art data view\静态文件", "js")),
