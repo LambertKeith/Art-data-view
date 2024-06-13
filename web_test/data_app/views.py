@@ -2,6 +2,7 @@ import os
 from django.shortcuts import render, redirect, HttpResponse
 from .models import Product
 from django.core.paginator import Paginator
+from .update_server.get_data_from_single_table import update as update_from_table
 
 
 
@@ -20,8 +21,16 @@ def product_list(request):
     # 获取所有查询参数
     query_params = request.GET.copy()
     
-    # 移除分页参数
+    # 获取每页显示的条数，默认为20
+    per_page = request.GET.get('per_page', 20)
+    try:
+        per_page = int(per_page)
+    except ValueError:
+        per_page = 20  # 如果转换失败，使用默认值
+
+    # 移除分页和每页显示条数参数
     query_params.pop('page', None)
+    query_params.pop('per_page', None)
 
     # 应用过滤条件
     for key, value in query_params.items():
@@ -31,20 +40,24 @@ def product_list(request):
     if filters:
         products = products.filter(**filters).order_by('id')  # 保持排序
 
-    # 添加分页功能，每页显示10条数据
-    paginator = Paginator(products, 10)
+    # 添加分页功能
+    paginator = Paginator(products, per_page)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
     context = {
         'page_obj': page_obj,
         'filters': query_params,
+        'per_page': per_page,
     }
     
     return render(request, 'product_list.html', context)
 
 
+
+
 def update(request):
+    return update_from_table(request)
     return redirect("/")
 
 

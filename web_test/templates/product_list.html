@@ -9,6 +9,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>Product List</title>
       <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+      <link href="{% static 'css/mycss.css' %}" rel="stylesheet">
       <style>
         body {
           overflow-x: hidden;
@@ -17,9 +18,10 @@
     </head>
     <body>
     <div class="container-fluid">
-      <h1 class="my-4">美工组-商品资料站-测试版</h1>
+
+      <h1 class="my-4 text-center">美工组-商品资料站-测试版</h1>
+
       <form id="filterForm" method="GET" class="form-inline mb-1">
-        <input type="text" name="img_path" class="form-control mr-2 mb-2" placeholder="图片预览" value="{{ filters.img_path }}">
         <input type="text" name="product_code" class="form-control mr-2 mb-2" placeholder="货号" value="{{ filters.product_code }}">
         <input type="text" name="original_product_code" class="form-control mr-2 mb-2" placeholder="原始货号" value="{{ filters.original_product_code }}">
         <input type="text" name="style_code" class="form-control mr-2 mb-2" placeholder="款号" value="{{ filters.style_code }}">
@@ -44,10 +46,11 @@
         <button type="submit" class="btn btn-primary mr-2 mb-2">执行筛选</button>
         <button type="button" class="btn btn-secondary mb-2" id="clearFilters">清除所有筛选</button>
       </form>
-      <div class="table-responsive">
-        <table class="table table-striped table-sm table-bordered">
+
+      <div class="table-responsive ">
+        <table class="table table-striped table-sm table-bordered custom-table">
           <thead>
-            <tr>
+            <tr class="text-center align-middle">
               <th>图片</th>
               <th>货号</th>
               <th>原始货号</th>
@@ -74,9 +77,8 @@
           </thead>
           <tbody>
             {% for product in page_obj %}
-            <tr>
+            <tr class="text-center align-middle">
               <td>
-                
                 {% if product.img_path %}
                 <img src="{% static product.img_path %}" alt="{{ product.product_code }}" width="100" class="img-thumbnail product-image" data-toggle="modal" data-target="#imageModal">
                 {% else %}
@@ -109,20 +111,36 @@
           </tbody>
         </table>
       </div>
+      
+      <form method="get" id="pagination-form">
+        <label for="per_page">每页显示条数:</label>
+        <select name="per_page" id="per_page" onchange="this.form.submit()">
+          <option value="10" {% if per_page == 10 %}selected{% endif %}>10</option>
+          <option value="20" {% if per_page == 20 %}selected{% endif %}>20</option>
+          <option value="50" {% if per_page == 50 %}selected{% endif %}>50</option>
+          <option value="100" {% if per_page == 100 %}selected{% endif %}>100</option>
+          <option value="300" {% if per_page == 300 %}selected{% endif %}>300</option>
+          <option value="500" {% if per_page == 500 %}selected{% endif %}>500</option>
+        </select>
+        {% for key, value in request.GET.items %}
+          {% if key != 'per_page' and key != 'page' %}
+            <input type="hidden" name="{{ key }}" value="{{ value }}">
+          {% endif %}
+        {% endfor %}
+      </form>
+      
       <div class="pagination">
         <span class="step-links">
           {% if page_obj.has_previous %}
-            <a href="?page=1{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">&laquo; 第一页</a>
-            <a href="?page={{ page_obj.previous_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">前一页</a>
+            <a href="?page=1&per_page={{ per_page }}{% for key, value in request.GET.items %}{% if key != 'page' and key != 'per_page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">&laquo; 第一页</a>
+            <a href="?page={{ page_obj.previous_page_number }}&per_page={{ per_page }}{% for key, value in request.GET.items %}{% if key != 'page' and key != 'per_page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">前一页</a>
           {% endif %}
-      
           <span class="current">
             第 {{ page_obj.number }} 页 / 一共 {{ page_obj.paginator.num_pages }}页 
           </span>
-      
           {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">下一页</a>
-            <a href="?page={{ page_obj.paginator.num_pages }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">最后一页 &raquo;</a>
+            <a href="?page={{ page_obj.next_page_number }}&per_page={{ per_page }}{% for key, value in request.GET.items %}{% if key != 'page' and key != 'per_page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">下一页</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}&per_page={{ per_page }}{% for key, value in request.GET.items %}{% if key != 'page' and key != 'per_page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">最后一页 &raquo;</a>
           {% endif %}
         </span>
       </div>
