@@ -54,12 +54,9 @@ def product_list(request):
     return render(request, 'product_list.html', context)
 
 
-
-
 def update(request):
     return update_from_table(request)
     return redirect("/")
-
 
 """ def update(request):
     # 指定搜索文件的根目录
