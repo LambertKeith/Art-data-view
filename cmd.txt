@@ -2,4 +2,6 @@
 \\192.168.10.229\图片\产品45主图随时更新\45主图
 
 # 启动服务
-python manage.py runserver 16789 
+python manage.py runserver 0.0.0.0:16789 
+
+python manage.py runserver 16788 
