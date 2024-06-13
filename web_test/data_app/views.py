@@ -2,7 +2,7 @@ import os
 from django.shortcuts import render, redirect, HttpResponse
 from .models import Product
 from django.core.paginator import Paginator
-from tqdm import tqdm
+
 
 
 def product_list(request):

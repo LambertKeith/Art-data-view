@@ -19,6 +19,7 @@
     <div class="container-fluid">
       <h1 class="my-4">美工组-商品资料站</h1>
       <form id="filterForm" method="GET" class="form-inline mb-1">
+        <input type="text" name="img_path" class="form-control mr-2 mb-2" placeholder="图片预览" value="{{ filters.img_path }}">
         <input type="text" name="product_code" class="form-control mr-2 mb-2" placeholder="货号" value="{{ filters.product_code }}">
         <input type="text" name="original_product_code" class="form-control mr-2 mb-2" placeholder="原始货号" value="{{ filters.original_product_code }}">
         <input type="text" name="style_code" class="form-control mr-2 mb-2" placeholder="款号" value="{{ filters.style_code }}">
@@ -75,6 +76,7 @@
             {% for product in page_obj %}
             <tr>
               <td>
+                
                 {% if product.img_path %}
                 <img src="{% static product.img_path %}" alt="{{ product.product_code }}" width="100" class="img-thumbnail product-image" data-toggle="modal" data-target="#imageModal">
                 {% else %}
