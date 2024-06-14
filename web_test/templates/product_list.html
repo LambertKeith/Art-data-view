@@ -1,6 +1,6 @@
 
 
-
+    {% load custom_tags %}
     {% load static %}
     <!DOCTYPE html>
     <html lang="en">
@@ -51,70 +51,74 @@
         <button type="button" class="btn btn-secondary mb-2" id="clearFilters">清除所有筛选</button>
       </form>
 
-      <div class="table-responsive ">
-        <table class="table table-striped table-sm table-bordered custom-table">
-          <thead>
-            <tr class="text-center align-middle">
-              <th>图片</th>
-              <th>货号</th>
-              <th>原始货号</th>
-              <th>款号</th>
-              <th>工厂代码</th>
-              <th>工厂货号</th>
-              <th>鞋垫材质</th>
-              <th>大底材质</th>
-              <th>内里材质</th>
-              <th>鞋面材质</th>
-              <th>组别</th>
-              <th>所属平台</th>
-              <th>成本</th>
-              <th>品名</th>
-              <th>季节分类</th>
-              <th>季节</th>
-              <th>三级分类</th>
-              <th>首单日期</th>
-              <th>唯品首次售卖时间</th>
-              <th>得物首次售卖时间</th>
-              <th>最新上下线状态</th>
-              <th>原始货号上线状态</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for product in page_obj %}
-            <tr class="text-center align-middle">
-              <td>
-                {% if product.img_path %}
-                <img src="{% static product.img_path %}" alt="{{ product.product_code }}" width="100" class="img-thumbnail product-image" data-toggle="modal" data-target="#imageModal">
-                {% else %}
-                No Image
-                {% endif %}
-              </td>
-              <td>{{ product.product_code }}</td>
-              <td>{{ product.original_product_code }}</td>
-              <td>{{ product.style_code }}</td>
-              <td>{{ product.factory_code }}</td>
-              <td>{{ product.factory_product_code }}</td>
-              <td>{{ product.insole_material }}</td>
-              <td>{{ product.outsole_material }}</td>
-              <td>{{ product.lining_material }}</td>
-              <td>{{ product.upper_material }}</td>
-              <td>{{ product.group }}</td>
-              <td>{{ product.platform }}</td>
-              <td>{{ product.cost }}</td>
-              <td>{{ product.product_name }}</td>
-              <td>{{ product.season_classification }}</td>
-              <td>{{ product.season }}</td>
-              <td>{{ product.category }}</td>
-              <td>{{ product.first_order_date }}</td>
-              <td>{{ product.vip_first_sale_date }}</td>
-              <td>{{ product.dew_first_sale_date }}</td>
-              <td>{{ product.latest_status }}</td>
-              <td>{{ product.original_status }}</td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
+      
+
+      <div class="table-responsive">
+          <table class="table table-striped table-sm table-bordered custom-table">
+              <thead>
+                  <tr class="text-center align-middle">
+                      <th>图片</th>
+                      <th><a href="{% sort_url 'product_code' %}">货号{% if current_sort == 'product_code' %} {% if current_order == 'asc' %}▲{% else %}▼{% endif %}{% endif %}</a></th>
+                      <th><a href="{% sort_url 'original_product_code' %}">原始货号{% if current_sort == 'original_product_code' %} {% if current_order == 'asc' %}▲{% else %}▼{% endif %}{% endif %}</a></th>
+                      <th><a href="{% sort_url 'style_code' %}">款号{% if current_sort == 'style_code' %} {% if current_order == 'asc' %}▲{% else %}▼{% endif %}{% endif %}</a></th>
+                      <th><a href="{% sort_url 'factory_code' %}">工厂代码{% if current_sort == 'factory_code' %} {% if current_order == 'asc' %}▲{% else %}▼{% endif %}{% endif %}</a></th>
+                      <th><a href="{% sort_url 'factory_product_code' %}">工厂货号{% if current_sort == 'factory_product_code' %} {% if current_order == 'asc' %}▲{% else %}▼{% endif %}{% endif %}</a></th>
+                      <th><a href="{% sort_url 'insole_material' %}">鞋垫材质{% if current_sort == 'insole_material' %} {% if current_order == 'asc' %}▲{% else %}▼{% endif %}{% endif %}</a></th>
+                      <th><a href="{% sort_url 'outsole_material' %}">大底材质{% if current_sort == 'outsole_material' %} {% if current_order == 'asc' %}▲{% else %}▼{% endif %}{% endif %}</a></th>
+                      <th><a href="{% sort_url 'lining_material' %}">内里材质{% if current_sort == 'lining_material' %} {% if current_order == 'asc' %}▲{% else %}▼{% endif %}{% endif %}</a></th>
+                      <th><a href="{% sort_url 'upper_material' %}">鞋面材质{% if current_sort == 'upper_material' %} {% if current_order == 'asc' %}▲{% else %}▼{% endif %}{% endif %}</a></th>
+                      <th><a href="{% sort_url 'group' %}">组别{% if current_sort == 'group' %} {% if current_order == 'asc' %}▲{% else %}▼{% endif %}{% endif %}</a></th>
+                      <th><a href="{% sort_url 'platform' %}">所属平台{% if current_sort == 'platform' %} {% if current_order == 'asc' %}▲{% else %}▼{% endif %}{% endif %}</a></th>
+                      <th><a href="{% sort_url 'cost' %}">成本{% if current_sort == 'cost' %} {% if current_order == 'asc' %}▲{% else %}▼{% endif %}{% endif %}</a></th>
+                      <th><a href="{% sort_url 'product_name' %}">品名{% if current_sort == 'product_name' %} {% if current_order == 'asc' %}▲{% else %}▼{% endif %}{% endif %}</a></th>
+                      <th><a href="{% sort_url 'season_classification' %}">季节分类{% if current_sort == 'season_classification' %} {% if current_order == 'asc' %}▲{% else %}▼{% endif %}{% endif %}</a></th>
+                      <th><a href="{% sort_url 'season' %}">季节{% if current_sort == 'season' %} {% if current_order == 'asc' %}▲{% else %}▼{% endif %}{% endif %}</a></th>
+                      <th><a href="{% sort_url 'category' %}">三级分类{% if current_sort == 'category' %} {% if current_order == 'asc' %}▲{% else %}▼{% endif %}{% endif %}</a></th>
+                      <th><a href="{% sort_url 'first_order_date' %}">首单日期{% if current_sort == 'first_order_date' %} {% if current_order == 'asc' %}▲{% else %}▼{% endif %}{% endif %}</a></th>
+                      <th><a href="{% sort_url 'vip_first_sale_date' %}">唯品首次售卖时间{% if current_sort == 'vip_first_sale_date' %} {% if current_order == 'asc' %}▲{% else %}▼{% endif %}{% endif %}</a></th>
+                      <th><a href="{% sort_url 'dew_first_sale_date' %}">得物首次售卖时间{% if current_sort == 'dew_first_sale_date' %} {% if current_order == 'asc' %}▲{% else %}▼{% endif %}{% endif %}</a></th>
+                      <th><a href="{% sort_url 'latest_status' %}">最新上下线状态{% if current_sort == 'latest_status' %} {% if current_order == 'asc' %}▲{% else %}▼{% endif %}{% endif %}</a></th>
+                      <th><a href="{% sort_url 'original_status' %}">原始货号上线状态{% if current_sort == 'original_status' %} {% if current_order == 'asc' %}▲{% else %}▼{% endif %}{% endif %}</a></th>
+                  </tr>
+              </thead>
+              <tbody>
+                  {% for product in page_obj %}
+                  <tr class="text-center align-middle">
+                      <td>
+                          {% if product.img_path %}
+                          <img src="{% static product.img_path %}" alt="{{ product.product_code }}" width="100" class="img-thumbnail product-image" data-toggle="modal" data-target="#imageModal">
+                          {% else %}
+                          No Image
+                          {% endif %}
+                      </td>
+                      <td>{{ product.product_code }}</td>
+                      <td>{{ product.original_product_code }}</td>
+                      <td>{{ product.style_code }}</td>
+                      <td>{{ product.factory_code }}</td>
+                      <td>{{ product.factory_product_code }}</td>
+                      <td>{{ product.insole_material }}</td>
+                      <td>{{ product.outsole_material }}</td>
+                      <td>{{ product.lining_material }}</td>
+                      <td>{{ product.upper_material }}</td>
+                      <td>{{ product.group }}</td>
+                      <td>{{ product.platform }}</td>
+                      <td>{{ product.cost }}</td>
+                      <td>{{ product.product_name }}</td>
+                      <td>{{ product.season_classification }}</td>
+                      <td>{{ product.season }}</td>
+                      <td>{{ product.category }}</td>
+                      <td>{{ product.first_order_date }}</td>
+                      <td>{{ product.vip_first_sale_date }}</td>
+                      <td>{{ product.dew_first_sale_date }}</td>
+                      <td>{{ product.latest_status }}</td>
+                      <td>{{ product.original_status }}</td>
+                  </tr>
+                  {% endfor %}
+              </tbody>
+          </table>
       </div>
+      
+    
       
       <form method="get" id="pagination-form">
         <label for="per_page">每页显示条数:</label>

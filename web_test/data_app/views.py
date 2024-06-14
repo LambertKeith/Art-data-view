@@ -7,20 +7,13 @@ from .update_server.get_data_from_single_table import update as update_from_tabl
 
 
 def product_list(request):
-    """显示商品列表
-
-    Args:
-        request (_type_): _description_
-
-    Returns:
-        _type_: _description_
-    """    
-    products = Product.objects.all().order_by('id')  # 按照主键排序
+    """显示商品列表"""
+    products = Product.objects.all()
     filters = {}
-    
+
     # 获取所有查询参数
     query_params = request.GET.copy()
-    
+
     # 获取每页显示的条数，默认为20
     per_page = request.GET.get('per_page', 20)
     try:
@@ -28,17 +21,31 @@ def product_list(request):
     except ValueError:
         per_page = 20  # 如果转换失败，使用默认值
 
+    # 获取排序字段和顺序
+    sort_by = request.GET.get('sort', 'id')  # 默认按 'id' 排序
+    order = request.GET.get('order', 'asc')  # 默认升序排序
+
+    # 确定排序方式
+    if order == 'asc':
+        sort_field = sort_by
+    else:
+        sort_field = '-' + sort_by
+
     # 移除分页和每页显示条数参数
     query_params.pop('page', None)
     query_params.pop('per_page', None)
+    query_params.pop('sort', None)
+    query_params.pop('order', None)
 
     # 应用过滤条件
     for key, value in query_params.items():
         if value:
             filters[key + '__icontains'] = value
-    
+
     if filters:
-        products = products.filter(**filters).order_by('id')  # 保持排序
+        products = products.filter(**filters)
+
+    products = products.order_by(sort_field)
 
     # 添加分页功能
     paginator = Paginator(products, per_page)
@@ -49,9 +56,12 @@ def product_list(request):
         'page_obj': page_obj,
         'filters': query_params,
         'per_page': per_page,
+        'current_sort': sort_by,
+        'current_order': order,
     }
-    
+
     return render(request, 'product_list.html', context)
+
 
 
 def update(request):
