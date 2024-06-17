@@ -1,5 +1,7 @@
 import os
 from django.shortcuts import render, redirect, HttpResponse
+
+from web_test.data_app.servers import product_list_server
 from .models import Product
 from django.core.paginator import Paginator
 from .update_server.get_data_from_single_table import update as update_from_table
@@ -9,39 +11,15 @@ from .update_server.get_data_from_single_table import update as update_from_tabl
 def product_list(request):
     """显示商品列表"""
     products = Product.objects.all()
-    filters = {}
 
-    # 获取所有查询参数
-    query_params = request.GET.copy()
-
-    # 获取每页显示的条数，默认为20
-    per_page = request.GET.get('per_page', 20)
-    try:
-        per_page = int(per_page)
-    except ValueError:
-        per_page = 20  # 如果转换失败，使用默认值
+    # 获取每页显示的条数
+    per_page = product_list_server.get_per_page(request)
 
     # 获取排序字段和顺序
-    sort_by = request.GET.get('sort', 'id')  # 默认按 'id' 排序
-    order = request.GET.get('order', 'asc')  # 默认升序排序
+    sort_by, order, sort_field = product_list_server.get_sorting_params(request)
 
-    # 确定排序方式
-    if order == 'asc':
-        sort_field = sort_by
-    else:
-        sort_field = '-' + sort_by
-
-    # 移除分页和每页显示条数参数
-    query_params.pop('page', None)
-    query_params.pop('per_page', None)
-    query_params.pop('sort', None)
-    query_params.pop('order', None)
-
-    # 应用过滤条件
-    for key, value in query_params.items():
-        if value:
-            filters[key + '__icontains'] = value
-
+    # 获取过滤条件
+    filters, query_params = product_list_server.get_filters(request)
     if filters:
         products = products.filter(**filters)
 
@@ -61,7 +39,6 @@ def product_list(request):
     }
 
     return render(request, 'product_list.html', context)
-
 
 
 def update(request):
