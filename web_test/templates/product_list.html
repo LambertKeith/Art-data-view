@@ -91,27 +91,27 @@
                           No Image
                           {% endif %}
                       </td>
-                      <td>{{ product.product_code }}</td>
-                      <td>{{ product.original_product_code }}</td>
-                      <td>{{ product.style_code }}</td>
-                      <td>{{ product.factory_code }}</td>
-                      <td>{{ product.factory_product_code }}</td>
-                      <td>{{ product.insole_material }}</td>
-                      <td>{{ product.outsole_material }}</td>
-                      <td>{{ product.lining_material }}</td>
-                      <td>{{ product.upper_material }}</td>
-                      <td>{{ product.group }}</td>
-                      <td>{{ product.platform }}</td>
-                      <td>{{ product.cost }}</td>
-                      <td>{{ product.product_name }}</td>
-                      <td>{{ product.season_classification }}</td>
-                      <td>{{ product.season }}</td>
-                      <td>{{ product.category }}</td>
-                      <td>{{ product.first_order_date }}</td>
-                      <td>{{ product.vip_first_sale_date }}</td>
-                      <td>{{ product.dew_first_sale_date }}</td>
-                      <td>{{ product.latest_status }}</td>
-                      <td>{{ product.original_status }}</td>
+                      <td contenteditable="true" onblur="saveData(this, '{{ product.id }}', 'product_code')">{{ product.product_code }}</td>
+                      <td contenteditable="true" onblur="saveData(this, '{{ product.id }}', 'original_product_code')">{{ product.original_product_code }}</td>
+                      <td contenteditable="true" onblur="saveData(this, '{{ product.id }}', 'style_code')">{{ product.style_code }}</td>
+                      <td contenteditable="true" onblur="saveData(this, '{{ product.id }}', 'factory_code')">{{ product.factory_code }}</td>
+                      <td contenteditable="true" onblur="saveData(this, '{{ product.id }}', 'factory_product_code')">{{ product.factory_product_code }}</td>
+                      <td contenteditable="true" onblur="saveData(this, '{{ product.id }}', 'insole_material')">{{ product.insole_material }}</td>
+                      <td contenteditable="true" onblur="saveData(this, '{{ product.id }}', 'outsole_material')">{{ product.outsole_material }}</td>
+                      <td contenteditable="true" onblur="saveData(this, '{{ product.id }}', 'lining_material')">{{ product.lining_material }}</td>
+                      <td contenteditable="true" onblur="saveData(this, '{{ product.id }}', 'upper_material')">{{ product.upper_material }}</td>
+                      <td contenteditable="true" onblur="saveData(this, '{{ product.id }}', 'group')">{{ product.group }}</td>
+                      <td contenteditable="true" onblur="saveData(this, '{{ product.id }}', 'platform')">{{ product.platform }}</td>
+                      <td contenteditable="true" onblur="saveData(this, '{{ product.id }}', 'cost')">{{ product.cost }}</td>
+                      <td contenteditable="true" onblur="saveData(this, '{{ product.id }}', 'product_name')">{{ product.product_name }}</td>
+                      <td contenteditable="true" onblur="saveData(this, '{{ product.id }}', 'season_classification')">{{ product.season_classification }}</td>
+                      <td contenteditable="true" onblur="saveData(this, '{{ product.id }}', 'season')">{{ product.season }}</td>
+                      <td contenteditable="true" onblur="saveData(this, '{{ product.id }}', 'category')">{{ product.category }}</td>
+                      <td contenteditable="true" onblur="saveData(this, '{{ product.id }}', 'first_order_date')">{{ product.first_order_date }}</td>
+                      <td contenteditable="true" onblur="saveData(this, '{{ product.id }}', 'vip_first_sale_date')">{{ product.vip_first_sale_date }}</td>
+                      <td contenteditable="true" onblur="saveData(this, '{{ product.id }}', 'dew_first_sale_date')">{{ product.dew_first_sale_date }}</td>
+                      <td contenteditable="true" onblur="saveData(this, '{{ product.id }}', 'latest_status')">{{ product.latest_status }}</td>
+                      <td contenteditable="true" onblur="saveData(this, '{{ product.id }}', 'original_status')">{{ product.original_status }}</td>
                   </tr>
                   {% endfor %}
               </tbody>
