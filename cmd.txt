@@ -5,3 +5,10 @@
 python manage.py runserver 0.0.0.0:16789 
 
 python manage.py runserver 16788 
+# 查看服务
+ps -ef | grep 16789
+
+# 停止服务
+kill -9 16789
+# 查看端口占用
+lsof -i:16789
